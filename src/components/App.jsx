@@ -4,12 +4,34 @@ class App extends React.Component{
 
     this.state = {
       clicked: false,
-      videos: exampleVideoData,
-      currVideo: exampleVideoData[0]
+      videos: [],
+      currVideo: exampleVideoData[0],
     };
 
     this.onClickVideoHandler = this.onClickVideoHandler.bind(this);
+    this.onSubmitHandler = this.onSubmitHandler.bind(this);
+    this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.getYouTubeVideo = this.getYouTubeVideo.bind(this);
   }
+
+  componentDidMount(){
+    this.getYouTubeVideo('react tutorials');
+  }
+
+  getYouTubeVideo(query) {
+    var options = {
+      key: this.props.API_KEY,
+      query: query
+    };
+
+    this.props.searchYouTube(options, (videos) =>
+      this.setState({
+        videos: videos,
+        currVideo: videos[0]
+      })
+    );
+  }
+
   
   onClickVideoHandler(videoClicked){
     this.setState({
@@ -17,12 +39,22 @@ class App extends React.Component{
     });
   }
 
+  onChangeHandler(event){
+    this.setState({value: event.target.value});
+  }
+
+  onSubmitHandler(event){
+    console.log(event.state.value + 'SUBMIT');
+    event.preventDefault();
+  }
+
+
   render(){
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em></h5></div>
+            <Search handleSearch={this.getYouTubeVideo}/>
           </div>
         </nav>
         <div className="row">
