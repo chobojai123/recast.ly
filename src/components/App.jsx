@@ -9,9 +9,8 @@ class App extends React.Component{
     };
 
     this.onClickVideoHandler = this.onClickVideoHandler.bind(this);
-    this.onSubmitHandler = this.onSubmitHandler.bind(this);
     this.onChangeHandler = this.onChangeHandler.bind(this);
-    this.getYouTubeVideo = this.getYouTubeVideo.bind(this);
+    this.getYouTubeVideo = _.debounce(this.getYouTubeVideo.bind(this), 500);
   }
 
   componentDidMount(){
@@ -42,13 +41,7 @@ class App extends React.Component{
   onChangeHandler(event){
     this.setState({value: event.target.value});
   }
-
-  onSubmitHandler(event){
-    console.log(event.state.value + 'SUBMIT');
-    event.preventDefault();
-  }
-
-
+  
   render(){
     return (
       <div>
